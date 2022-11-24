@@ -1,0 +1,46 @@
+.App {
+	text-align: center;
+}
+
+.App-root {
+	width: 80%!;
+    min-height: 75px!;
+    margin: 0 auto;
+}
+
+.App-button-header {
+	color: #000000;
+    text-decoration: none;
+}
+
+.App-button-header-selected {
+	color: #5c13d9;
+    text-decoration: none;
+}
+
+.App-button-header:hover {
+	color: #5c13d9;
+}
+
+.App-header {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 10px 0;
+	background-color: #222;
+	color: #fff;
+}
+
+.App-tv-logo {
+	height: 45px;
+}
+
+.App-react-logo {
+	display: block;
+	height: 62px;
+}
+
+.App-title {
+	display: block;
+	font-size: 1.5em;
+}
