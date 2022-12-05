@@ -7,7 +7,7 @@ const options = {
     }
 }
 
-const baseUrl = 'https://localhost:7287/api';
+const baseUrl = 'https://localhost:7232/api';
 
 async function getQuote(symbol) {
     const response = await fetch(`${baseUrl}/${symbol}/quote`, options);

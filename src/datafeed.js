@@ -18,7 +18,7 @@ const configurationData = {
 
 async function getAllSymbols() {
 
-    var data = await makeApiRequest('symbols');
+    var data = await makeApiRequest('stock-data/symbols');
 
     let allSymbols = [];
 
@@ -56,7 +56,7 @@ async function getAllSymbols() {
 async function makeApiRequest(path) {
     var data;
     await timeout(50);
-    data = await fetch(`https://localhost:7287/api/${path}`);
+    data = await fetch(`https://localhost:7232/api/${path}`);
     return data.json();
 }
 
@@ -99,9 +99,7 @@ export const Datafeed = {
 
     searchSymbols: (userInput, exchange, symbolType, onResultReadyCallback) => {
         console.log('[searchSymbols]: Method call');
-        console.log(userInput);
         getAllSymbols().then((symbols) => {
-            console.log(symbols)
             const newSymbols = symbols.filter(symbol => {
                 const isExchangeValid = exchange === '' || symbol.exchange === exchange;
                 const isFullSymbolContainsInput = symbol.symbol
@@ -117,7 +115,7 @@ export const Datafeed = {
         console.log('[resolveSymbol]: Method call', symbolName);
         getAllSymbols()
             .then((symbols) => {
-                const symbolItem = symbols.find(({ full_name }) => full_name === symbolName);
+                const symbolItem = symbols.find(({ full_name }) => full_name.toLowerCase() === symbolName.toLowerCase());
 
                 if (!symbolItem) {
                     console.log('[resolveSymbol]: Cannot resolve symbol', symbolName);
