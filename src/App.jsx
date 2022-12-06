@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './App.css';
 import { TVChartContainer } from './components/TVChartContainer/index';
 
-export default function App (props) {
+export default function App () {
 	const searchParams = new URLSearchParams(document.location.search);
 	const s = searchParams.get('symbol');
 	console.log(searchParams.get('symbol'));
