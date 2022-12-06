@@ -9,8 +9,6 @@ const configurationData = {
     symbols_types: [
         {
             name: 'stocks',
-
-            // `symbolType` argument for the `searchSymbols` method, if a user selects this symbol type
             value: 'stocks',
         },
     ]
@@ -33,30 +31,13 @@ async function getAllSymbols() {
     }
 
     return allSymbols;
-
-    //makeApiRequest('ref-data/symbols?token=pk_85ec59ee38fe474e84c13e81689fc475')
-    //    .then((data) => {
-    //        let allSymbols = [];
-
-
-    //        for (const symbolObject of data.Data) {
-    //            allSymbols = allSymbols.concat({
-    //                symbol: symbolObject.symbol,
-    //                full_name: symbolObject.name,
-    //                description: symbolObject.name,
-    //                exchange: symbolObject.exchange,
-    //                type: 'crypto'
-    //            });
-    //        }
-
-    //        return allSymbols;
-    //    });
 }
 
 async function makeApiRequest(path) {
     var data;
     await timeout(50);
-    data = await fetch(`https://localhost:7232/api/${path}`);
+    data = await fetch(`https://trading-view-api.azurewebsites.net/api/${path}`);
+    console.log('api-request');
     return data.json();
 }
 
@@ -85,7 +66,6 @@ function parseFullSymbol(fullSymbol) {
 
 export const Datafeed = {
     onReady: (callback) => {
-        console.log('[onReady]: Method call');
 
         makeApiRequest(`exchanges`)
             .then(exchanges => {
@@ -98,7 +78,6 @@ export const Datafeed = {
     },
 
     searchSymbols: (userInput, exchange, symbolType, onResultReadyCallback) => {
-        console.log('[searchSymbols]: Method call');
         getAllSymbols().then((symbols) => {
             const newSymbols = symbols.filter(symbol => {
                 const isExchangeValid = exchange === '' || symbol.exchange === exchange;
@@ -112,7 +91,6 @@ export const Datafeed = {
     },
 
     resolveSymbol: (symbolName, onSymbolResolvedCallback, onResolveErrorCallback) => {
-        console.log('[resolveSymbol]: Method call', symbolName);
         getAllSymbols()
             .then((symbols) => {
                 const symbolItem = symbols.find(({ full_name }) => full_name.toLowerCase() === symbolName.toLowerCase());
@@ -140,17 +118,14 @@ export const Datafeed = {
                     data_status: 'streaming',
                 };
 
-                console.log('[resolveSymbol]: Symbol resolved', symbolName);
                 onSymbolResolvedCallback(symbolInfo);
             });
 
     },
 
     getBars: (symbolInfo, resolution, periodParams, onHistoryCallback, onErrorCallback) => {
-        console.log('[getBars]: Method call', symbolInfo);
         const { from, to, firstDataRequest } = periodParams;
 
-        console.log('[getBars]: Method call', symbolInfo, resolution, from, to, firstDataRequest);
         var currectTime = new Date().getTime();
         var needToLoadCurrentPrice = currectTime >= from * 1000 && currectTime < to * 1000;
 
@@ -177,12 +152,9 @@ export const Datafeed = {
                         }
                     });
 
-                    console.log(`[getBars]: returned ${bars.length} bar(s)`);
-                    console.log(bars);
                     onHistoryCallback(bars, { noData: false });
                 });
         } catch (error) {
-            console.log('[getBars]: Get error', error);
             onErrorCallback(error);
         }
     },
