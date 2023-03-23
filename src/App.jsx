@@ -9,7 +9,7 @@ export default function App () {
 
 	return (
 		<div className={ 'App' }>
-				<div style={{width: '60em', height: '30em'}}>
+				<div style={{width: '100%', height: '100%'}}>
 					<TVChartContainer symbol={s} />
 				</div>
 		</div>
